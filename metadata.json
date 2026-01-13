@@ -1,0 +1,5 @@
+{
+  "name": "Gemini News Intelligence",
+  "description": "A sophisticated news discovery and analysis dashboard that uses Gemini's search grounding to fetch, summarize, and categorize real-time news based on user keywords.",
+  "requestFramePermissions": []
+}

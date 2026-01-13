@@ -9,9 +9,10 @@ const INITIAL_SOURCES: NewsSource[] = [
   { id: '2', name: '經濟日報', domain: 'money.udn.com', selected: true },
   { id: '3', name: 'Digitimes', domain: 'digitimes.com.tw', selected: true },
   { id: '4', name: '科技新報', domain: 'technews.tw', selected: true },
-  { id: '10', name: 'SteelNews 鋼鐵網', domain: 'steelnews.com.tw', selected: true },
-  { id: '5', name: 'Japan Metal Daily', domain: 'japanmetaldaily.com', selected: false },
-  { id: '6', name: 'Newspeed JP', domain: 'newspeed.jp', selected: false },
+  { id: '10', name: 'SNN 鋼鐵網', domain: 'steelnews.com.tw/index', selected: true },
+  { id: '12', name: '中央通訊社', domain: 'cna.com.tw', selected: true },
+  { id: '5', name: '鉄鋼新聞', domain: 'japanmetaldaily.com', selected: false },
+  { id: '6', name: '日刊產業新聞', domain: 'newspeed.jp', selected: false },
   { id: '11', name: 'JETRO 日本貿易振興', domain: 'jetro.go.jp', selected: false },
   { id: '7', name: 'BBC News', domain: 'bbc.com', selected: false },
   { id: '8', name: 'Reuters', domain: 'reuters.com', selected: false },
@@ -20,9 +21,7 @@ const INITIAL_SOURCES: NewsSource[] = [
 
 const ARTICLES_PER_PAGE = 6;
 
-// 取得今日日期字串 (YYYY-MM-DD)
 const getTodayStr = () => new Date().toISOString().split('T')[0];
-// 取得一個月前的日期字串
 const getLastMonthStr = () => {
   const d = new Date();
   d.setMonth(d.getMonth() - 1);
@@ -46,8 +45,8 @@ const HOT_TOPICS: NewsArticle[] = [
     summary: '市場密切關注中國鋼廠出口動向，亞洲區域不鏽鋼盤價呈現築底反彈跡象。',
     category: '鋼鐵市場',
     sentiment: 'neutral',
-    source: 'Steel Watch',
-    url: 'http://www.steelnews.com.tw/',
+    source: 'SNN 鋼鐵網',
+    url: 'https://www.steelnews.com.tw/index',
     publishedDate: '精選'
   }
 ];
@@ -61,7 +60,7 @@ const App: React.FC = () => {
   const [articles, setArticles] = useState<NewsArticle[]>([]);
   const [trendAnalysis, setTrendAnalysis] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [sources, setSources] = useState<NewsSource[]>(INITIAL_SOURCES);
+  const [sources, setSources] = useState(INITIAL_SOURCES);
   const [showAccountInfo, setShowAccountInfo] = useState(true);
   const [hasSearched, setHasSearched] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -71,7 +70,7 @@ const App: React.FC = () => {
   };
 
   const sourceGroups = [
-    { title: '🇹🇼 台灣財經與產業', items: sources.filter(s => ['1', '2', '3', '4', '10'].includes(s.id)) },
+    { title: '🇹🇼 台灣財經與產業', items: sources.filter(s => ['1', '2', '3', '4', '10', '12'].includes(s.id)) },
     { title: '🇯🇵 日本產業與機構', items: sources.filter(s => ['5', '6', '11'].includes(s.id)) },
     { title: '🌐 全球國際媒體', items: sources.filter(s => ['7', '8', '9'].includes(s.id)) }
   ];
@@ -123,22 +122,22 @@ const App: React.FC = () => {
             </button>
           </div>
           <div className="space-y-3 text-[10px]">
-             <div><p className="font-bold text-blue-600">&lt;SNN&gt;</p><p className="text-slate-600">cindy.tsai@sumitomocorp.com / kaozz1234</p></div>
-             <div><p className="font-bold text-blue-600">&lt;日刊鐵鋼&gt;</p><p className="text-slate-600">japanmetaldaily@sumitomocorp.com / NCznH6Lr</p></div>
-             <div><p className="font-bold text-blue-600">&lt;日刊產業&gt;</p><p className="text-slate-600">sumitomocorp / ZaFbKXwｍ</p></div>
+             <div><p className="font-bold text-teal-600">&lt;SNN&gt;</p><p className="text-slate-600">cindy.tsai@sumitomocorp.com / kaozz1234</p></div>
+             <div><p className="font-bold text-teal-600">&lt;日刊鐵鋼&gt;</p><p className="text-slate-600">japanmetaldaily@sumitomocorp.com / NCznH6Lr</p></div>
+             <div><p className="font-bold text-teal-600">&lt;日刊產業&gt;</p><p className="text-slate-600">sumitomocorp / ZaFbKXwｍ</p></div>
           </div>
         </div>
       </div>
 
       {!showAccountInfo && (
-        <button onClick={() => setShowAccountInfo(true)} className="fixed top-6 right-6 z-50 bg-white border border-slate-200 p-3 rounded-full shadow-lg text-slate-500">
+        <button onClick={() => setShowAccountInfo(true)} className="fixed top-6 right-6 z-50 bg-white border border-slate-200 p-3 rounded-full shadow-lg text-slate-500 hover:text-teal-500 transition-colors">
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" /></svg>
         </button>
       )}
 
       <header className="mb-12 text-center">
         <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight sm:text-5xl mb-4">
-          News <span className="text-blue-600">Intelligence</span>
+          News <span className="text-teal-600">Intelligence</span>
         </h1>
         <p className="text-lg text-slate-600 max-w-2xl mx-auto font-medium">專業新聞智能抓取系統：依日期區間深度檢索產業動態。</p>
       </header>
@@ -146,10 +145,9 @@ const App: React.FC = () => {
       <div className="max-w-3xl mx-auto mb-16 space-y-6">
         <form onSubmit={handleSearch} className="space-y-4">
           <div className="relative flex items-center">
-            {/* 修改輸入框樣式：背景設為白色，文字設為深灰色以確保清晰 */}
             <input
               type="text"
-              className="w-full pl-5 pr-32 py-4 rounded-2xl border border-slate-200 bg-white text-slate-800 shadow-sm focus:ring-4 focus:ring-blue-100 focus:border-blue-400 outline-none transition-all text-lg placeholder:text-slate-400"
+              className="w-full pl-5 pr-32 py-4 rounded-2xl border border-slate-200 bg-white text-slate-800 shadow-sm focus:ring-4 focus:ring-teal-50 focus:border-teal-400 outline-none transition-all text-lg placeholder:text-slate-400"
               placeholder="搜尋關鍵字：如「華新盤價」、「鋼鐵減產」..."
               value={keywords}
               onChange={(e) => setKeywords(e.target.value)}
@@ -157,7 +155,7 @@ const App: React.FC = () => {
             <button
               type="submit"
               disabled={loading}
-              className="absolute right-2 px-6 py-2.5 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 disabled:opacity-50 transition-colors"
+              className="absolute right-2 px-6 py-2.5 bg-teal-600 text-white font-bold rounded-xl hover:bg-teal-700 disabled:opacity-50 transition-colors shadow-lg shadow-teal-100"
             >
               {loading ? '抓取中...' : '即時抓取'}
             </button>
@@ -170,14 +168,14 @@ const App: React.FC = () => {
                 type="date" 
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
-                className="bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 focus:ring-2 focus:ring-blue-400 outline-none w-full"
+                className="bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 focus:ring-2 focus:ring-teal-400 outline-none w-full"
               />
               <span className="text-slate-400">至</span>
               <input 
                 type="date" 
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
-                className="bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 focus:ring-2 focus:ring-blue-400 outline-none w-full"
+                className="bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 focus:ring-2 focus:ring-teal-400 outline-none w-full"
               />
             </div>
           </div>
@@ -195,7 +193,7 @@ const App: React.FC = () => {
                       key={source.id}
                       onClick={() => toggleSource(source.id)}
                       className={`px-3 py-2 rounded-xl text-xs font-bold transition-all border ${
-                        source.selected ? 'bg-blue-600 border-blue-600 text-white shadow-sm' : 'bg-slate-50 border-slate-200 text-slate-500 hover:border-blue-300'
+                        source.selected ? 'bg-teal-600 border-teal-600 text-white shadow-sm' : 'bg-slate-50 border-slate-200 text-slate-500 hover:border-teal-300'
                       }`}
                     >
                       {source.name}
@@ -215,9 +213,9 @@ const App: React.FC = () => {
       )}
 
       {trendAnalysis && !loading && (
-        <div className="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-6 border border-blue-100 shadow-sm mb-12">
+        <div className="bg-gradient-to-br from-teal-50 to-white rounded-2xl p-6 border border-teal-100 shadow-sm mb-12">
           <h2 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">📊 深度洞察摘要</h2>
-          <div className="text-slate-700 leading-relaxed font-medium border-l-4 border-blue-400 pl-5">{trendAnalysis}</div>
+          <div className="text-slate-700 leading-relaxed font-medium border-l-4 border-teal-400 pl-5">{trendAnalysis}</div>
         </div>
       )}
 
@@ -254,7 +252,7 @@ const App: React.FC = () => {
                   <button
                     key={i + 1}
                     onClick={() => handlePageChange(i + 1)}
-                    className={`min-w-[40px] h-10 rounded-lg text-sm font-bold ${currentPage === i + 1 ? 'bg-blue-600 text-white' : 'bg-white border'}`}
+                    className={`min-w-[40px] h-10 rounded-lg text-sm font-bold ${currentPage === i + 1 ? 'bg-teal-600 text-white' : 'bg-white border hover:border-teal-400'}`}
                   >
                     {i + 1}
                   </button>

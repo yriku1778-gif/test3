@@ -1,0 +1,21 @@
+
+{
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/((?!.*\\.(?:tsx|ts|js|json|css|html|png|jpg|svg)$).*)",
+      "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*).(tsx|ts)",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/javascript"
+        }
+      ]
+    }
+  ]
+}
